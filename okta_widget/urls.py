@@ -9,6 +9,9 @@ urlpatterns = [
     path('login-noprompt/', view_login_auto, name='login_noprompt'),
     path('auth-groupadmin/', view_auth_groupadmin, name='auth_groupadmin'),
 
+    # switch tenants
+    path('switch_application/', view_switch_application, name='switch_application'),
+
     # login
     path('login/', view_login, name='login_default'),
     path('logout/', view_logout, name='logout'),

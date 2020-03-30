@@ -10,7 +10,8 @@
       <div class="row">
         <div class="col-md-8">
             <h3>[[ prfl.name ]] <span v-if="adminBadge" class="badge">[[ adminBadge ]]</span></h3>
-            <a href="{% url 'login_noprompt' %}">Get Fresh Tokens</a>
+            <a href="{% url 'login_noprompt' %}">Get Fresh Tokens</a> |
+            <a href="{% url 'switch_application' %}">Switch Tenant</a>
             <h4>Here is your profile based upon your Okta login!</h4>
         </div>
       </div>

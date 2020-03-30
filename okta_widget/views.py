@@ -145,6 +145,11 @@ def view_login_auto(request):
     return render(request, 'index_get_without_prompt.html', conf)
 
 
+def view_switch_application(request):
+    page = 'switch_application'
+    return HttpResponse("hello")
+
+
 def _do_refresh(request, page):
     key = 'pages_js_{}'.format(page)
     if 'Update' not in request.POST:
@@ -689,6 +694,3 @@ def view_sensitive_operations(request):
 
 def health_check(request):
     return render(request, 'health_check.html')
-
-
-
