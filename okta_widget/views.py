@@ -9,6 +9,7 @@ from .forms import RegistrationForm, RegistrationForm2, TextForm, ActivationForm
 from .configs import *
 from .authx import *
 import time
+# from datetime import datetime
 
 
 config = Config()
@@ -90,7 +91,7 @@ def _update_conf(request, obj):
 
 
 def view_login(request, recoveryToken=None):
-    unused = recoveryToken
+    # unused = recoveryToken
 
     page = 'login_default'
     conf = _get_config(request, page)
@@ -262,6 +263,7 @@ def view_login_idp(request):
         idps += "\n      {{type: 'LINKEDIN', id: '{}'}},".format(conf['lnkd_idp'])
     idps += ']'
 
+    # //TODO: Update dynamically creation of javascript for SIW IDP.
     btns = '['
     if conf['saml_idp'] and (len(conf['saml_idp'])>0):
         if conf['saml_idp'] is not None:
@@ -465,7 +467,8 @@ def activation_wo_token_view(request):
             print('email={}'.format(email))
             otp = form.cleaned_data['verificationCode']
             password1 = form.cleaned_data['password1']
-            password2 = form.cleaned_data['password2']
+            # //TODO: Test this and then delete.
+            # password2 = form.cleaned_data['password2']
 
             client = UsersClient('https://' + conf['org'], config.get_api_key(request))
             user = json.loads(client.get_user(email))
@@ -477,7 +480,8 @@ def activation_wo_token_view(request):
 
                 request.session['activation_state'] = 'verify-token'
                 if user['status'] == 'STAGED':
-                    enroll_status = client.enroll_email_factor(user['id'], email)
+                    enroll_status = client.enroll_email_factor(user['id'], email) # noqa
+                    # //TODO: Handle enroll_status. Remove noqa when done
                     #if enroll_status.status_code == 200:
                     response = client.list_factors(user['id'])
                     factors = json.loads(response)
@@ -494,14 +498,22 @@ def activation_wo_token_view(request):
                 response = client.verify_email_factor(user_id=request.session['verification_user_id'],
                                                       factor_id=request.session['email_factor_id'],
                                                       pass_code=otp)
+
+                # //TODO: Implement error handling on response object
             elif state == 'set-password':
                 payload = {
                     "credentials": {
                         "password": {"value": password1}
                     }
                 }
-                setpassword = client.set_password(user_id=request.session['verification_user_id'], user=payload)
-                activate = client.activate(user_id=request.session['verification_user_id'])
+                setpassword = client.set_password(user_id=request.session['verification_user_id'], user=payload) # noqa
+                activate = client.activate(user_id=request.session['verification_user_id']) # noqa
+
+                # //TODO: Implement error handling on response from client.set_password() and client.activate(). Remove noqa
+                # ie.
+                # if setpassword.status_code != 200 or activate.status_code != 200:
+                #   raise Exception('Error: Unable to set password and activate user')
+
                 auth = AuthClient('https://' + conf['org'])
                 res = auth.authn(request.session['verification_username'], password1)
                 if res.status_code == 200:
@@ -550,7 +562,8 @@ def oauth2_post(request):
         if 'code' in request.GET:
             code = request.GET['code']
         if 'state' in request.GET:
-            state = request.GET['state']
+            # //TODO: Remove or implement state validation
+            state = request.GET['state'] # noqa
 
     if code:
         client = OAuth2Client('https://' + conf['org'], conf['iss'], conf['aud'], config.get_client_secret(request))
@@ -685,6 +698,3 @@ def view_sensitive_operations(request):
 
 def health_check(request):
     return render(request, 'health_check.html')
-
-
-

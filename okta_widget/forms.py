@@ -1,6 +1,6 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-from django.conf import settings
+from django.conf import settings # noqa
 
 
 class TextForm(forms.Form):
@@ -21,8 +21,8 @@ class RegistrationForm(forms.Form):
         widget=forms.PasswordInput(attrs=dict(required=True, max_length=30, render_value=False)),
         label=_("password (again)"),
         error_messages={'invalid': _("Minimum length 4. Must contain at least 1 digit, 1 uppercase letter, 1 lowercase letter")})
-    redirect = forms.CharField(required=False);
-    lang = forms.CharField(required=False);
+    redirect = forms.CharField(required=False)
+    lang = forms.CharField(required=False)
 
     def clean_password2(self):
         if 'password1' in self.cleaned_data and 'password2' in self.cleaned_data:
@@ -75,6 +75,7 @@ class ActivationWithEmailForm(forms.Form):
     #     widget=forms.PasswordInput(attrs=dict(required=False, max_length=30, render_value=False)),
     #     label=_("password (again)"),
     #     error_messages={'invalid': _("Minimum length 4. Must contain at least 1 digit, 1 uppercase letter, 1 lowercase letter")})
+
 
     def clean_password2(self):
         if 'password1' in self.cleaned_data and 'password2' in self.cleaned_data:

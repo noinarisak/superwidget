@@ -1,6 +1,6 @@
 from django.urls import path, re_path
-from .api import *
-from .views import *
+from .api import * # noqa
+from .views import * # noqa
 
 urlpatterns = [
     # home
@@ -73,4 +73,3 @@ urlpatterns = [
     path('sensitive_operations/', view_sensitive_operations, name='sensitive_operations'), # FIXME: Protect this route
     path('transfer', transfer_money, name='transfer_money'),
 ]
-

@@ -1,6 +1,6 @@
 import requests
 import json
-from ..authx import parse_bearer_token
+# from ..authx import parse_bearer_token
 
 
 class UsersClient(object):
@@ -22,24 +22,27 @@ class UsersClient(object):
         response = requests.post(url, headers=self.headers, data=json.dumps(user))
         return response
 
-    def set_password(self, user_id, user):
-        url = self.base_url + '/api/v1/users/{}'.format(user_id)
-        response = requests.put(url, headers=self.headers, data=json.dumps(user))
-        return response
+    # //TODO: DELETE
+    # def set_password(self, user_id, user):
+    #     url = self.base_url + '/api/v1/users/{}'.format(user_id)
+    #     response = requests.put(url, headers=self.headers, data=json.dumps(user))
+    #     return response
 
     def activate(self, user_id, send_email=False):
         url = self.base_url + '/api/v1/users/{0}/lifecycle/activate?sendEmail={1}'.format(user_id, send_email)
         response = requests.post(url, headers=self.headers)
         return response
 
-        user_id = response.json().get('id')
-        url = self.base_url + '/api/v1/users/{}lifecycle/activate?sendEmail=true'.format(user_id)
-        return requests.post(url, headers=self.headers, data=json.dumps(user))
+        # //TODO: DELETE
+        # user_id = response.json().get('id')
+        # url = self.base_url + '/api/v1/users/{}lifecycle/activate?sendEmail=true'.format(user_id)
+        # return requests.post(url, headers=self.headers, data=json.dumps(user))
 
     def update_user(self, user, user_id, deactivate=False):
         url = self.base_url + '/api/v1/users/{}'.format(user_id)
         return requests.post(url, headers=self.headers, data=json.dumps(user))
 
+    # //TODO: DELETE
     # def create_user_scoped(self, user, activate="false", group=""):
     #     url = self.base_url + '/api/v1/users?activate={}'.format(activate)
     #     response = requests.post(url, headers=self.headers, data=json.dumps(user))
@@ -133,4 +136,3 @@ class UsersClient(object):
             data = json.dumps(payload)
         response = requests.post(url, headers=self.headers, data=data)
         return response
-

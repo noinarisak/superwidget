@@ -112,7 +112,7 @@ class Config(object):
         http_host_parts = http_host.split('.')
         print('http_host split: {}'.format(http_host_parts))
         read_the_config = True
-        if re.match('^localhost:[0-9]+$', http_host_parts[0]) or re.match('^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$', http_host):
+        if re.match('^localhost:[0-9]+$', http_host_parts[0]) or re.match('^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$', http_host): # noqa
             read_the_config = False
 
         subdomain = http_host_parts[0]
@@ -341,4 +341,5 @@ def _test_url(url, default):
         else:
             return default
     except Exception as e:
+        print('Exception in _test_url: {}'.format(e))
         return default
